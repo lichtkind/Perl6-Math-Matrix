@@ -7,9 +7,9 @@ Math::Matrix - create, compare, compute and measure 2D matrices
 
 0.3.0
 
-=head1 !MOVING!
+=head1 !LATER!
 
-This repo will be moved to a L<different place|https://github.com/lichtkind/Perl6-Math-Matrix> soon.
+This repo will be the new home L<this place|https://github.com/pierre-vigier/Perl6-Math-Matrix>.
 
 =head1 SYNOPSIS
 
@@ -42,9 +42,9 @@ Acceptable export tags are:
 =item L<accessors|#accessors>: L<cell|#cell>, L<row|#row>, L<column|#column>, L<diagonal|#diagonal>, L<submatrix|#submatrix>, L<AT-POS|#at-pos>
 =item L<converter|#type-conversion-and-output-formats>: L<Bool|#bool>, L<Numeric|#numeric>, L<Str|#str>, L<Array|#array>, L<Hash|#hash>, L<list|#list>, L<list-rows|#list-rows>, L<list-columns|#list-columns>, L<gist|#gist>, L<perl|#perl>
 =item L<boolean properties|#boolean-properties>: L<is-zero|#is-zero>, L<is-identity|#is-identity>, L<is-square|#is-square>, L<is-diagonal|#is-diagonal>,
-    L<is-diagonally-dominant|#is-diagonally-dominant>, L<is-upper-triangular|#is-upper-triangular>, L<is-lower-triangular|#is-lower-triangular>, L<is-invertible|#is-invertible>,
-    L<is-symmetric|#is-symmetric>, L<is-antisymmetric|#is-antisymmetric>, L<is-unitary|#is-unitary>, L<is-self-adjoint|#is-self-adjoint>, L<is-orthogonal|#is-orthogonal>,
-    L<is-positive-definite|#is-positive-definite>, L<is-positive-semidefinite|#is-positive-semidefinite>
+      L<is-diagonally-dominant|#is-diagonally-dominant>, L<is-upper-triangular|#is-upper-triangular>, L<is-lower-triangular|#is-lower-triangular>, L<is-invertible|#is-invertible>,
+      L<is-symmetric|#is-symmetric>, L<is-antisymmetric|#is-antisymmetric>, L<is-unitary|#is-unitary>, L<is-self-adjoint|#is-self-adjoint>, L<is-orthogonal|#is-orthogonal>,
+      L<is-positive-definite|#is-positive-definite>, L<is-positive-semidefinite|#is-positive-semidefinite>
 =item L<numeric properties|#numeric-properties>: L<size|#size>, L<density|#density>, L<trace|#trace>, L<determinant|#determinant>, L<rank|#rank>, L<kernel|#kernel>, L<norm|#norm>, L<condition|#condition>, L<narrowest-cell-type|#narrowest-cell-type>, L<widest-cell-type|#widest-cell-type>
 =item L<derived matrices|#derived-matrices>: L<transposed|#transposed>, L<negated|#negated>, L<conjugated|#conjugated>, L<inverted|#inverted>, L<reduced-row-echelon-form|#reduced-row-echelon-form>
 =item L<decompositions|#decompositions>: L<decompositionLUCrout|#decompositionlucrout>, L<decompositionLU|#decompositionlu>, L<decompositionCholesky|#decompositioncholesky>
