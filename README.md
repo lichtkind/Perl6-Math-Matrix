@@ -16,7 +16,7 @@ VERSION
 !LATER!
 =======
 
-This repo will be the new home [this place](https://github.com/pierre-vigier/Perl6-Math-Matrix).
+This repo will be the new home [this project](https://github.com/pierre-vigier/Perl6-Math-Matrix).
 
 SYNOPSIS
 ========

@@ -9,7 +9,7 @@ Math::Matrix - create, compare, compute and measure 2D matrices
 
 =head1 !LATER!
 
-This repo will be the new home L<this place|https://github.com/pierre-vigier/Perl6-Math-Matrix>.
+This repo will be the new home L<this project|https://github.com/pierre-vigier/Perl6-Math-Matrix>.
 
 =head1 SYNOPSIS
 
