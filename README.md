@@ -46,9 +46,9 @@ All computation heavy properties will be calculated lazily and will be cached. A
 METHODS
 =======
 
-  * [constructors](#constructors): [new []](#new--), [new ''](#new---1), [new-zero](#new-zero), [new-identity](#new-identity), [new-diagonal](#new-diagonal), [new-vector-product](#new-vector-product)
+  * [constructors](#constructors): [new []](#new--), [new ()](#new---1), [new ""](#new---2), [new-zero](#new-zero), [new-identity](#new-identity), [new-diagonal](#new-diagonal), [new-vector-product](#new-vector-product)
 
-  * [accessors](#accessors): [cell](#cell), [row](#row), [column](#column), [diagonal](#diagonal), [submatrix](#submatrix), [AT-POS](#at-pos)
+  * [accessors](#accessors): [cell](#cell), [AT-POS](#at-pos), [row](#row), [column](#column), [diagonal](#diagonal), [submatrix](#submatrix)
 
   * [converter](#type-conversion-and-output-formats): [Bool](#bool), [Numeric](#numeric), [Str](#str), [Array](#array), [Hash](#hash), [list](#list), [list-rows](#list-rows), [list-columns](#list-columns), [gist](#gist), [perl](#perl)
 
@@ -62,7 +62,7 @@ METHODS
 
   * [matrix math ops](#matrix-math-operations): [add](#add), [subtract](#subtract), [add-row](#add-row), [add-column](#add-column), [multiply](#multiply), [multiply-row](#multiply-row), [multiply-column](#multiply-column), [dotProduct](#dotproduct), [tensorProduct](#tensorproduct)
 
-  * [list like ops](#list-like-matrix-operations): [elems](#elems), [cont](#cont), [equal](#equal), [map](#map), [map-row](#map-row), [map-column](#map-column), [map-cell](#map-cell), [reduce](#reduce), [reduce-rows](#reduce-rows), [reduce-columns](#reduce-columns)
+  * [list like ops](#list-like-matrix-operations): [elems](#elems), [elem](#elem), [cont](#cont), [equal](#equal), [map](#map), [map-row](#map-row), [map-column](#map-column), [map-cell](#map-cell), [reduce](#reduce), [reduce-rows](#reduce-rows), [reduce-columns](#reduce-columns)
 
   * [structural ops](#structural-matrix-operations): [move-row](#move-row), [move-column](#move-column), [swap-rows](#swap-rows), [swap-columns](#swap-columns), [splice-rows](#splice-rows), [splice-columns](#splice-columns)
 
@@ -92,6 +92,15 @@ The default constructor, takes arrays of arrays of numbers as the only required 
 
     use Math::Matrix :MM;            # tag :ALL works too
     MM [[1,2],[3,4]];                # shortcut
+
+### [new( ((...),...,(...)) )](#constructors)
+
+Instead of square brackets you can use round ones too and use a list of lists as argument too.
+
+    say Math::Matrix.new( ((1,2),(3,4)) ) :
+
+    1 2
+    3 4
 
 ### [new( "..." )](#constructors)
 
@@ -166,7 +175,11 @@ Gets value of element in row (first parameter) and column (second parameter). (c
 
 ### [AT-POS](#accessors)
 
-Gets row as array to enable direct postcircumfix syntax as shown in last example. $matrix.AT-POS(0) : [1,2] $matrix[0] # operator alias
+Gets row as array to enable direct postcircumfix syntax as shown in last example.
+
+    say $matrix.AT-POS(0)     : [1,2]
+    say $matrix[0]            # operator alias
+    say $matrix.Array[0]      # long alias with converter method Array
 
 ### [row](#accessors)
 
@@ -188,35 +201,27 @@ Gets values of diagonal elements as a list.
 
 ### [submatrix](#accessors)
 
-Matrix built by a subset of cells of a given matrix.
+Returns a matrix that might miss certain rows and columns of the original. This method accepts arguments in three different formats. The first follows the strict mathematical definition of a submatrix, the second supports a rather visual understanding of the term and the third is a way to get almost any combination rows and columns you might wish for. To properly present these functions, we base the next examples upon this matrix:
 
-The first and simplest usage is by choosing a cell (by coordinates like .cell()). Row and column of that cell will be removed. The remaining cells form the submatrix.
+    say $m:    1 2 3 4
+               2 3 4 5
+               3 4 5 6
+               4 5 6 7
 
-    say $m:
+In mathematics, a submatrix is built by leaving out one row and one column. In the two argument format you name these by their index ($row, $column).
 
-    1 2 3 4
-    2 3 4 5
-    3 4 5 6
+    say $m.submatrix(1,2) :    1 2 4
+                               3 4 6
+                               4 5 7
 
-    say $m.submatrix(1,2) :
+If you provide two ranges (row-min .. row-max, col-min .. col-max), you get the two dimensional excerpt of the matrix that is defined by these ranges.
 
-    1 2 4
-    3 4 6
+    say $m.submatrix(1..1, 0..*) :    3 4 5
 
-If you provide two pairs of coordinates (row1, column1, row2, column2), these will be counted as left upper and right lower corner of and area inside the original matrix, which will the resulting submatrix.
+When provided with two lists (or arrays) of values (first for the rows - second for columns) a new matrix will be created with that selection of rows and columns. Please note, that you can pick any row/column in any order and as many times you prefer. They will displayed in the order they are listed in the arguments.
 
-    say $m.submatrix(1,1,1,3) :
-
-    3 4 5
-
-When provided with two lists of values (first for the rows - second for columns) a new matrix will be created with that selection of the old rows and columns in that new order.
-
-    $m.submatrix((1,2),(3,2)):
-
-    5 4
-    6 5
-
-In that example we have second and third row in previous order, but selcted only third and fourth column in reversed order.
+    $m.submatrix((1,2),(3,2)):    5 4
+                                  6 5
 
 [Type Conversion And Output Formats](#methods)
 ----------------------------------------------
@@ -233,14 +238,14 @@ Conversion into Bool context. Returns False if matrix is zero (all cells equal z
 
 ### [Numeric](#type-conversion-and-output-formats)
 
-Conversion into Numeric context. Returns number (amount) of cells (as .elems). Please note, only a prefix operator + (as in: + $matrix) will call this Method. An infix (as in $matrix + $number) calls $matrix.add($number).
+Conversion into Numeric context. Returns Euclidean [norm](#norm). Please note, only a prefix operator + (as in: + $matrix) will call this Method. An infix (as in $matrix + $number) calls $matrix.add($number).
 
     $matrix.Numeric
     + $matrix           # alias op
 
 ### [Str](#type-conversion-and-output-formats)
 
-Returns all cell values separated by one whitespace, rows by new line. This is the same format as expected by Math::Matrix.new(""). Str is called implicitly by put and print. A shortened version is provided by .gist
+Returns all cell values separated by one whitespace, rows by new line. This is the same format as expected by [Math::Matrix.new("")](#new---2). Str is called implicitly by put and print. A shortened version is provided by [gist](#gist)
 
     say Math::Matrix.new([[1,2],[3,4]]).Str:
 
@@ -251,10 +256,10 @@ Returns all cell values separated by one whitespace, rows by new line. This is t
 
 ### [Array](#type-conversion-and-output-formats)
 
-Content of all cells as an array of arrays (same format that was put into Math::Matrix.new([...])).
+Content of all cells as an array of arrays (same format that was put into [Math::Matrix.new([...])](#new--)).
 
     say Math::Matrix.new([[1,2],[3,4]]).Array : [[1 2] [3 4]]
-    say @ $matrix       # alias op, space needed
+    say @ $matrix       # alias op, space between @ and $ needed
 
 ### [list](#type-conversion-and-output-formats)
 
@@ -265,7 +270,7 @@ Returns a flat list with all cells (same as .list-rows.flat.list).
 
 ### [list-rows](#type-conversion-and-output-formats)
 
-Returns a list of lists, reflecting the row-wise content of the matrix.
+Returns a list of lists, reflecting the row-wise content of the matrix. Same format as [new ()](#new---1) takes in.
 
     say Math::Matrix.new( [[1,2],[3,4]] ).list-rows      : ((1 2) (3 4))
     say Math::Matrix.new( [[1,2],[3,4]] ).list-rows.flat : (1 2 3 4)
@@ -275,17 +280,18 @@ Returns a list of lists, reflecting the row-wise content of the matrix.
 Returns a list of lists, reflecting the row-wise content of the matrix.
 
     say Math::Matrix.new( [[1,2],[3,4]] ).list-columns : ((1 3) (2 4))
+    say Math::Matrix.new( [[1,2],[3,4]] ).list-columns.flat : (1 3 2 4)
 
 ### [Hash](#type-conversion-and-output-formats)
 
 Gets you a nested key - value hash.
 
     say $matrix.Hash : { 0 => { 0 => 1, 1 => 2}, 1 => {0 => 3, 1 => 4} } 
-    say % $matrix       # alias op, space needed
+    say % $matrix       # alias op, space between % and $ still needed
 
 ### [gist](#type-conversion-and-output-formats)
 
-Limited tabular view, optimized for shell output. Just cuts off excessive columns that do not fit into standard terminal and also stops after 20 rows. If you call it explicitly, you can add width and height (char count) as optional arguments. Might even not show all decimals. Several dots will hint that something is missing. It is implicitly called by say. For a full view use .Str
+Limited tabular view, optimized for shell output. Just cuts off excessive columns that do not fit into standard terminal and also stops after 20 rows. If you call it explicitly, you can add width and height (char count) as optional arguments. Might even not show all decimals. Several dots will hint that something is missing. It is implicitly called by say. For a full view use [Str](#str).
 
     say $matrix;      # output when matrix has more than 100 cells
 
@@ -457,9 +463,10 @@ Kernel of matrix, number of dependent rows or columns (rank + kernel = dim).
 
 A norm is a single positive number, which is an abstraction to the concept of size. Most common form for matrices is the p-norm, where in step 1 the absolute value of every cell is taken to the power of p. The sum of these results is taken to the power of 1/p. The p-q-Norm extents this process. In his step 2 every column-sum is taken to the power of (p/q). In step 3 the sum of these are taken to the power of (1/q).
 
-    my $norm = $matrix.norm( );           # euclidian norm (L2, p = 2)
+    my $norm = $matrix.norm( );           # euclidian norm aka L2 (p = 2, q = 2)
+    my $norm = + $matrix;                 # context op shortcut
     my $norm = ‖ $matrix ‖;               # unicode op shortcut
-    my $norm = $matrix.norm(1);           # p-norm, L1 = sum of all cells absolute values
+    my $norm = $matrix.norm(1);           # p-norm aka L1 = sum of all cells absolute values (p = 1, q = 1)
     my $norm = $matrix.norm(p:<4>,q:<3>); # p,q - norm, p = 4, q = 3
     my $norm = $matrix.norm(p:<2>,q:<2>); # L2 aka Euclidean aka Frobenius norm
     my $norm = $matrix.norm('euclidean'); # same thing, more expressive to some
@@ -681,20 +688,26 @@ Selection of methods that are also provided by Lists and Arrays and make also se
 
 ### [elems](#list-like-matrix-operations)
 
-Number (count) of elements.
+Number (count) of elements = rows * columns.
 
     say $matrix.elems();
-    say +$matrix;                       # same thing
+
+### [elem](#list-like-matrix-operations)
+
+Asks if all cell values are part an element of the set/range provided.
+
+    Math::Matrix.new([[1,2],[3,4]]).elem(1..4) :   True
+    Math::Matrix.new([[1,2],[3,4]]).elem(2..5) :   False
 
 ### [cont](#list-like-matrix-operations)
 
-Asks if certain value is containted in cells (treating the matrix like a baggy set), or if there is one value within a cetain range.
+Asks if the matrix contains a value equal to the only argument of the method. If a range is provided as argument, at least one cell value has to be within this range to make the result true.
 
-    Math::Matrix.new([[1,2],[3,4]]).cont(1) :   True
-    Math::Matrix.new([[1,2],[3,4]]).cont(5) :   False
+    Math::Matrix.new([[1,2],[3,4]]).cont(1)   : True
+    Math::Matrix.new([[1,2],[3,4]]).cont(5)   : False
     Math::Matrix.new([[1,2],[3,4]]).cont(3..7): True
 
-    MM [[1,2],[3,4]] (cont) 1           # True too
+    MM [[1,2],[3,4]] (cont) 1                 # True too
 
 ### [equal](#list-like-matrix-operations)
 
@@ -864,7 +877,7 @@ The Module overloads or uses a range of well and lesser known ops. +, -, *, ⋅,
 
 The only exception is MM-operator, a shortcut to create a matrix. That has to be importet explicitly with the tag :MM or :ALL. The postcircumfix [] - op will always work.
 
-    my $a   = +$matrix               # Num context, amount (count) of cells
+    my $a   = +$matrix               # Num context, Euclidean norm
     my $b   = ?$matrix               # Bool context, True if any cell has a none zero value
     my $str = ~$matrix               # String context, matrix content, space and new line separated as table
     my $l   = |$matrix               # list context, list of all cells, row-wise
