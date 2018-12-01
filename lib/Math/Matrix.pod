@@ -1,7 +1,7 @@
 =begin pod
 =head1 NAME
 
-Math::Matrix - create, compare, compute and measure 2D matrices
+Math::Matrix::Bundle - vectors, matrices, decompositions and more
 
 =head1 VERSION
 
@@ -9,7 +9,7 @@ Math::Matrix - create, compare, compute and measure 2D matrices
 
 =head1 !LATER!
 
-This repo will be the new home L<this project|https://github.com/pierre-vigier/Perl6-Math-Matrix>.
+This repo will be the new home and successor of L<this project|https://github.com/pierre-vigier/Perl6-Math-Matrix>.
 
 =head1 SYNOPSIS
 

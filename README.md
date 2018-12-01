@@ -4,7 +4,7 @@
 NAME
 ====
 
-Math::Matrix - create, compare, compute and measure 2D matrices
+Math::Matrix::Bundle - vectors, matrices, decompositions and more
 
 VERSION
 =======
@@ -14,7 +14,7 @@ VERSION
 !LATER!
 =======
 
-This repo will be the new home [this project](https://github.com/pierre-vigier/Perl6-Math-Matrix).
+This repo will be the new home and successor of [this project](https://github.com/pierre-vigier/Perl6-Math-Matrix).
 
 SYNOPSIS
 ========
