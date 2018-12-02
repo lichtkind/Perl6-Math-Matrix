@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/lichtkind/Perl6-Math-Matrix-Bundle.svg?branch=master)](https://travis-ci.org/lichtkind/Perl6-Math-Matrix-Bundle)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/lichtkind/Perl6-Math-Matrix-Bundle?svg=true)](https://ci.appveyor.com/project/lichtkind/Perl6-Math-Matrix-Bundle/branch/master)
+
 NAME
 ====
 
