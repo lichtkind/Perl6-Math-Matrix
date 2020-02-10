@@ -5,9 +5,9 @@ Math::Matrix::Bundle - vectors, matrices, decompositions and more
 
 =head1 VERSION
 
-0.3.8
+0.3.9
 
-=head1 !LATER!
+=head1 !MOVING!
 
 This repo will be the new home and successor of L<this project|https://github.com/pierre-vigier/Perl6-Math-Matrix>.
 

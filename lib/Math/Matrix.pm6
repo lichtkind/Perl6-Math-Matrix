@@ -1,7 +1,7 @@
 use v6.c;
 need Math::Matrix::Util;
 
-unit class Math::Matrix:ver<0.3.8>:auth<github:lichtkind> does Math::Matrix::Util;
+unit class Math::Matrix:ver<0.3.9>:auth<github:lichtkind> does Math::Matrix::Util;
 
 use AttrX::Lazy;
 

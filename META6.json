@@ -18,5 +18,5 @@
   "source-url" : "git://github.com/lichtkind/Perl6-Math-Matrix-Bundle.git",
   "tags" : [ "Math" ],
   "test-depends" : [ "Test", "Test::META"],
-  "version" : "0.3.8"
+  "version" : "0.3.9"
 }

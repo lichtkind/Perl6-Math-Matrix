@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/lichtkind/Perl6-Math-Matrix-Bundle.svg?branch=master)](https://travis-ci.org/lichtkind/Perl6-Math-Matrix-Bundle)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/lichtkind/Perl6-Math-Matrix-Bundle?svg=true)](https://ci.appveyor.com/project/lichtkind/Perl6-Math-Matrix-Bundle/branch/master)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/github/lichtkind/Perl6-Math-Matrix-Bundle?svg=true)](https://ci.appveyor.com/project/lichtkind/Perl6-Math-Matrix-Bundle/branch/master)\n
 NAME
 ====
 
@@ -9,10 +8,10 @@ Math::Matrix::Bundle - vectors, matrices, decompositions and more
 VERSION
 =======
 
-0.3.8
+0.3.9
 
-!LATER!
-=======
+!MOVING!
+========
 
 This repo will be the new home and successor of [this project](https://github.com/pierre-vigier/Perl6-Math-Matrix).
 
